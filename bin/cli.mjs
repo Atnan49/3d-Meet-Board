@@ -2,7 +2,6 @@
 import { spawn } from 'node:child_process';
 import fsSync from 'node:fs';
 import readline from 'node:readline/promises';
-import { bin as cloudflaredBin, install as installCloudflared } from 'cloudflared';
 import {
   buildDiscordLinks,
   getConfigPath,
@@ -12,10 +11,10 @@ import {
   saveConfig,
 } from '../server/config.mjs';
 import { startServer } from '../server/index.mjs';
+import { startQuickTunnel } from '../server/tunnel.mjs';
 
 const pkg = JSON.parse(fsSync.readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 const PORTAL_HOME_URL = 'https://discord.com/developers/applications';
-const TRY_CF_REGEX = /https:\/\/[a-z0-9-]+\.trycloudflare\.com/i;
 
 function parseArgs(argv) {
   const args = argv.slice(2);
@@ -170,56 +169,6 @@ function showStatus() {
   console.log('');
 }
 
-async function startCloudflareTunnel(port) {
-  if (!fsSync.existsSync(cloudflaredBin)) {
-    console.log('Mengunduh binary cloudflared untuk tunnel HTTPS otomatis...');
-    await installCloudflared(cloudflaredBin);
-  }
-
-  return await new Promise((resolve) => {
-    const child = spawn(cloudflaredBin, ['tunnel', '--url', `http://127.0.0.1:${port}`], {
-      stdio: ['ignore', 'pipe', 'pipe'],
-      windowsHide: true,
-    });
-
-    let settled = false;
-    const done = (result) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timer);
-      resolve(result);
-    };
-
-    const handleChunk = (chunk) => {
-      const text = String(chunk);
-      const match = TRY_CF_REGEX.exec(text);
-      if (match) {
-        done({ url: match[0], process: child });
-      }
-    };
-
-    child.stdout?.on('data', handleChunk);
-    child.stderr?.on('data', handleChunk);
-    child.on('error', (err) => {
-      done({ url: null, process: null, error: err.message });
-    });
-    child.on('exit', (code) => {
-      if (!settled) {
-        done({ url: null, process: null, error: `cloudflared keluar dengan kode ${code}` });
-      }
-    });
-
-    const timer = setTimeout(() => {
-      try {
-        child.kill();
-      } catch {
-        // ignore
-      }
-      done({ url: null, process: null, error: 'Waktu tunggu tunnel HTTPS habis (25 detik).' });
-    }, 25_000);
-  });
-}
-
 async function runStart(flags) {
   let cfg = loadConfig();
 
@@ -254,7 +203,9 @@ async function runStart(flags) {
 
   if (!flags.noTunnel) {
     console.log('Menyiapkan tunnel HTTPS Cloudflare untuk Discord Activity...');
-    const t = await startCloudflareTunnel(serverHandle.port);
+    const t = await startQuickTunnel(serverHandle.port, {
+      onStatus: (msg) => console.log(msg),
+    });
     tunnelProc = t.process;
     tunnelUrl = t.url;
     tunnelError = t.error || null;
