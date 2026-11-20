@@ -1,0 +1,26 @@
+{
+  "name": "discord-3d-collaboration-room",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Ruang kolaborasi 3D untuk server Discord dengan papan anggota dan papan tempel sticky note, foto, serta benang penghubung real-time.",
+  "scripts": {
+    "dev:server": "node --watch server/index.mjs",
+    "dev:client": "vite",
+    "build": "tsc --noEmit && vite build",
+    "start": "node server/index.mjs",
+    "test": "node --test server/store.test.mjs"
+  },
+  "dependencies": {
+    "@discord/embedded-app-sdk": "^2.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "three": "^0.172.0",
+    "ws": "^8.18.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.172.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  }
+}
