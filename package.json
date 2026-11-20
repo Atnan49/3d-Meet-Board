@@ -1,6 +1,6 @@
 {
   "name": "3d-meet-board",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
   "type": "module",
   "description": "Ruang kolaborasi 3D untuk server Discord dengan papan anggota dan papan tempel sticky note, foto, serta benang penghubung real-time.",
@@ -20,10 +20,9 @@
     "dev:client": "vite",
     "build": "tsc --noEmit && vite build",
     "start": "node server/index.mjs",
-    "test": "node --test server/store.test.mjs server/config.test.mjs"
+    "test": "node --test server/store.test.mjs server/config.test.mjs server/tunnel.test.mjs"
   },
   "dependencies": {
-    "cloudflared": "^0.7.3",
     "express": "^4.21.2",
     "ws": "^8.18.1"
   },
