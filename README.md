@@ -17,8 +17,10 @@ Fitur utama:
 Cukup jalankan perintah berikut di CMD / Terminal (membutuhkan Node.js 18+):
 
 ```bat
-npm install -g github:Atnan49/3d-Meet-Board
+npm install -g https://github.com/Atnan49/3d-Meet-Board/archive/refs/heads/main.tar.gz
 ```
+
+> Catatan: Gunakan URL `.tar.gz` langsung agar terhindar dari bug symlink/junction sementara pada `github:` di Windows npm 10 (sampai paket ini dipublikasikan ke registry npm sebagai `npm install -g 3d-meet-board`).
 
 Lalu jalankan wizard setup Discord satu kali:
 
