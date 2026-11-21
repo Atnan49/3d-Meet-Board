@@ -1,4 +1,9 @@
 node_modules/
 .env
+.env.local
 data/
 *.log
+*.blend1
+*.blend2
+.DS_Store
+Thumbs.db
