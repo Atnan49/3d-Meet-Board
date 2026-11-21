@@ -1,0 +1,50 @@
+name: Bug Report
+description: Report unexpected behavior in the 3D scene, WebSocket sync, Discord SDK, or CLI
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Briefly describe what went wrong and what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: How can maintainers reproduce this issue?
+      placeholder: |
+        1. Run `3d-meet-board`
+        2. Open the Activity in Discord
+        3. Click ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: run_mode
+    attributes:
+      label: Installation method
+      options:
+        - Global CLI (`npm install -g ...`)
+        - Local repository clone (`npm start` / dev server)
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Node.js version, and package version (`3d-meet-board --version`).
+      placeholder: "Windows 11, Node v22.17.0, 3d-meet-board 0.2.2"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Paste any terminal output or browser console errors (remove tokens or secrets first).
+      render: shell

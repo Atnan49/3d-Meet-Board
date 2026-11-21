@@ -2,8 +2,31 @@
   "name": "3d-meet-board",
   "version": "0.2.2",
   "license": "MIT",
+  "author": "Atnan49",
   "type": "module",
-  "description": "Ruang kolaborasi 3D untuk server Discord dengan papan anggota dan papan tempel sticky note, foto, serta benang penghubung real-time.",
+  "description": "Self-hosted 3D meeting room and corkboard collaboration space for Discord Activities with automatic Cloudflare HTTPS tunneling.",
+  "homepage": "https://github.com/Atnan49/3d-Meet-Board#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Atnan49/3d-Meet-Board.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Atnan49/3d-Meet-Board/issues"
+  },
+  "keywords": [
+    "discord",
+    "discord-activity",
+    "threejs",
+    "3d",
+    "collaboration",
+    "corkboard",
+    "websocket",
+    "cli",
+    "self-hosted"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "bin": {
     "3d-meet-board": "./bin/cli.mjs"
   },
@@ -12,6 +35,7 @@
     "server/",
     "dist/",
     "README.md",
+    "LICENSE",
     ".env.example"
   ],
   "scripts": {
